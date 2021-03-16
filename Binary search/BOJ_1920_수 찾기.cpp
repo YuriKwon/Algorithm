@@ -12,13 +12,15 @@ int bs(int target) {
 	int e = n - 1;
 	int mid;
 	while (1) {
-		mid = s + e / 2;
+		//여기 괄호 빼먹어서 계속 틀림
+		mid = (s + e) / 2;
 		if (target == arr[mid]) return 1;
 		//등호를 넣어야 하는 이유(s=e인경우 무한루프)
 		// 3 / 1 2 2 / 4 / 0 2 1 5 가 반례
 		if (s >= e) return 0;
-		if (target > arr[mid]) s = mid;
-		else e = mid;
+		//mid로 지정하는 경우 arr두개일 때 무한 루프
+		if (target > arr[mid]) s = mid+1;
+		else e = mid-1;
 	}
 }
 
