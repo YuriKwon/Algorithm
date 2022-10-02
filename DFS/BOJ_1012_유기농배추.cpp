@@ -1,53 +1,51 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 using namespace std;
 
-int dy[4]={1,-1,0,0};
-int dx[4]={0,0,1,-1};
-int M,N,K;
-int arr[50][50]={0};
-int visited[50][50]={0};
+int t, m, n, k, y, x;
+int arr[51][51];
+int visited[51][51]; // 1이면 방문
+int num; // 배추 덩어리 수 = 필요한 지렁이 수
+int dy[4] = {0, 0, 1, -1};
+int dx[4] = {1, -1, 0, 0};
 
-void dfs(int y,int x){
-    for(int i=0; i<4; i++){
-        int ny=y+dy[i];
-        int nx=x+dx[i];
-        //배열의 인덱스를 넘지 않도록
-        if(ny<0 || ny>=N || nx<0 || nx>=M)
-            continue;
-        //방문 x이고 배추 있다면 탐색 계속
-        if(arr[ny][nx] && !visited[ny][nx]){
-            visited[ny][nx]++;
-            dfs(ny,nx);
+void dfs(int y, int x) {
+    for (int i=0; i<4; i++) {
+        int ny = y + dy[i];
+        int nx = x + dx[i];
+
+        if (ny >= 0 && nx >= 0 && ny <= n && nx <= m) {
+            if (arr[ny][nx] == 1 && visited[ny][nx] == 0) {
+                visited[ny][nx] = 1;
+                dfs(ny, nx);
+            }
         }
     }
 }
-
-int main(){
-    int T,x,y;
-    scanf("%d", &T);
-
-    for(int testCase=0; testCase<T; testCase++){
-        scanf("%d %d %d", &M,&N,&K);
-
-        //초기화
+int main() {
+    cin >> t;
+    for (int i=0; i<t; i++) {
+        // arr 초기화
         memset(arr, 0, sizeof(arr));
         memset(visited, 0, sizeof(visited));
-
-        int ans=0; //지렁이 개수
-
-        for(int i=0; i<K; i++){
-            scanf("%d %d", &x,&y);
-            arr[y][x]=1;
+        num = 0;
+        cin >> m >> n >> k;
+        for (int j=0; j<k; j++) {
+            cin >> x >> y;
+            arr[y][x] = 1;
         }
 
-        for(int i=0; i<N; i++)
-            for(int j=0; j<M; j++)
-                if(arr[i][j] && !visited[i][j]){
-                    ans++;
-                    visited[i][j]++;
-                    dfs(i,j);
+        for (int y=0; y<n; y++) {
+            for (int x=0; x<m; x++) {
+                if (visited[y][x] == 0 && arr[y][x] == 1) {
+                    visited[y][x] = 1;
+                    dfs(y, x);
+                    num++;
                 }
-        printf("%d\n", ans);
+            }
+        }
+        cout << num << "\n";
+
     }
+    return 0;
 }
