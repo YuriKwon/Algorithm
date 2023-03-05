@@ -1,45 +1,23 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <utility>
 using namespace std;
 
 int n;
-int height[201]; // key: weight(몸무게)
-vector<int> weight;
-int ranking = 1; // 순위
-vector<int> order; // 들어온 순서
-int answer[201];
+int ranking = 1;
+pair<int, int> arr[50];
 
 int main() {
   cin >> n;
-
-  for (int i=0; i<n; i++) {
-    int w, h;
-    cin >> w >> h;
-    height[w] = h;
-    weight.push_back(w);
-    order.push_back(w);
+  for (int i = 0; i < n; i++) {
+    cin >> arr[i].first >> arr[i].second;
   }
-  sort(weight.begin(), weight.end(), greater<int>());
-
-  for (int i=0; i<n; i++) {
-    // cout << weight[i] << ' ';
-    // cout << height[weight[i]] << endl;
-    if (i == n-1) {
-      answer[weight[i]] = ranking;
-      break;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) { // j를 1부터 하면 틀림.. 처음부터 비교해야 하니까 당연한 것!
+      if (arr[i].first < arr[j].first && arr[i].second < arr[j].second) {
+        ranking++;
+      }
     }
-    if (height[weight[i]] > height[weight[i+1]]) {
-      answer[weight[i]] = ranking;
-      ranking = i + 2;
-    } else if (height[weight[i]] <= height[weight[i+1]]){
-      answer[weight[i]] = ranking;
-    }
+    cout << ranking << ' ';
+    ranking = 1;
   }
-
-  for (int i=0; i<n; i++) {
-    cout << answer[order[i]] << ' ';
-  }
-
-  return 0;
 }
