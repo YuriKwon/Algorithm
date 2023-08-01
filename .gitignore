@@ -33,3 +33,9 @@ $RECYCLE.BIN/
 .vs
 
 Secret
+
+*.bin
+.idea/
+.vscode/
+.cph/
+.DS_Store
